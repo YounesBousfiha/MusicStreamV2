@@ -3,6 +3,7 @@ package com.jartiste.backend.infrastructure.storage.Impl;
 
 import com.jartiste.backend.infrastructure.storage.IFileStorageService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 @Slf4j
 @Service
+@Primary
 public class LocalFileStorageService implements IFileStorageService {
 
     private static final String UPLOAD_DIR = "uploads/";
