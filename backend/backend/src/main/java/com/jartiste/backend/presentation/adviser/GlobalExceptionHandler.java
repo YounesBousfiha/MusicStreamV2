@@ -1,6 +1,7 @@
 package com.jartiste.backend.presentation.adviser;
 
 
+import com.jartiste.backend.domain.exception.SongNotFoundException;
 import com.jartiste.backend.domain.exception.UserAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -41,6 +42,20 @@ public class GlobalExceptionHandler {
         problemDetail.setProperty("timestamp", Instant.now());
         problemDetail.setProperty("errorCode", HttpStatus.CONFLICT.value());
 
+
+        return problemDetail;
+    }
+
+    @ExceptionHandler(SongNotFoundException.class)
+    public ProblemDetail handleSongNotFoundException(SongNotFoundException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.NOT_FOUND,
+                ex.getMessage()
+        );
+
+        problemDetail.setTitle("Song Not Found");
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("errorCode", HttpStatus.NOT_FOUND.value());
 
         return problemDetail;
     }
