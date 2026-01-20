@@ -1,5 +1,6 @@
 package com.jartiste.backend.domain.entity;
 
+import com.jartiste.backend.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,6 +30,8 @@ public class User {
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    private Role role;
 
     @Column(nullable = false)
     private String password;
