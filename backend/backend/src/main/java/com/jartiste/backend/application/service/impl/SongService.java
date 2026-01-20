@@ -3,6 +3,7 @@ package com.jartiste.backend.application.service.impl;
 import com.jartiste.backend.application.mapper.SongMapper;
 import com.jartiste.backend.application.service.ISongService;
 import com.jartiste.backend.domain.entity.Song;
+import com.jartiste.backend.domain.exception.SongNotFoundException;
 import com.jartiste.backend.domain.repository.SongRepository;
 import com.jartiste.backend.infrastructure.storage.IFileStorageService;
 import com.jartiste.backend.presentation.dto.request.SongRequest;
@@ -42,7 +43,19 @@ public class SongService  implements ISongService {
     }
 
     @Override
-    public List<SongRequest> getAllSongs() {
-        return List.of();
+    public List<SongResponse> getAllSongs() {
+        return this.songRepository.findAll()
+                .stream()
+                .map(songMapper::toResponse)
+                .toList();
+    }
+
+    @Override
+    public void deleteSong(Long id) {
+        if(this.songRepository.existsById(id)) {
+            this.songRepository.deleteById(id);
+        } else {
+            throw new SongNotFoundException("Song not found");
+        }
     }
 }
