@@ -8,5 +8,8 @@ import java.util.List;
 public interface ISongService {
 
     SongResponse save(SongRequest request);
-    List<SongRequest> getAllSongs();
+
+    List<SongResponse> getAllSongs();
+
+    void deleteSong(Long id);
 }
