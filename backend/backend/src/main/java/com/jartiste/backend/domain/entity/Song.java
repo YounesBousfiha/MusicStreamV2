@@ -21,9 +21,15 @@ public class Song {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String artist;
+
+    private String coverUrl;
+
+    private String songUrl;
 
     private int duration;
 
