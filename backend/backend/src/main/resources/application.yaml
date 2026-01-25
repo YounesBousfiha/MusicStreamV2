@@ -1,5 +1,5 @@
 spring:
   application:
-    name: backend
+    name: musicstream
   profiles:
-    active: dev
+    active: prod
