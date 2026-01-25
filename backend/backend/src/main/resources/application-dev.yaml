@@ -8,9 +8,6 @@ spring:
 
 
   datasource:
-    url: JDBC:h2:mem:musicdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
-    username: sa
-    password: ""
     driver-class-name: org.h2.Driver
 
 
@@ -23,3 +20,9 @@ spring:
   h2:
     console:
       enabled: true
+
+application:
+  security:
+    jwt:
+      expiration: 1800000
+      secret-key: TOP_SECRET
