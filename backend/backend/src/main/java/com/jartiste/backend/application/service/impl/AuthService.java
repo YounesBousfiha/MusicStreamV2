@@ -56,7 +56,13 @@ public class AuthService  implements IAuthService {
             throw new UserAlreadyExistsException("Email Already exists");
         }
 
-        var user = User.builder().build();
+        var user = User.builder()
+                .firstName(request.firstName())
+                .lastName(request.lastName())
+                .role(Role.USER)
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
+                .build();
 
         this.userRepository.save(user);
 
