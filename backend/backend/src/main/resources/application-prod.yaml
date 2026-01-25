@@ -1,18 +1,21 @@
 spring:
+  config:
+    import: vault://
   cloud:
     vault:
       enabled: true
-      uri: ${VAULT_URI::http://localhost:8200}
+      uri: ${VAULT_URI:http://localhost:8200}
       token: ${VAULT_TOKEN:root}
       scheme: http
       ssl:
         is-enabled: false
       kv:
         enabled: true
+        backend: secret
 
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     show-sql: false
