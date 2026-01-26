@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz ->
                         authz.requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/songs/create").hasRole("ADMIN")
+                                .requestMatchers("/songs/all").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                         )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
