@@ -9,12 +9,14 @@ import com.jartiste.backend.infrastructure.storage.IFileStorageService;
 import com.jartiste.backend.presentation.dto.request.SongRequest;
 import com.jartiste.backend.presentation.dto.response.SongResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SongService  implements ISongService {
 
 
@@ -28,6 +30,7 @@ public class SongService  implements ISongService {
 
         String coverFileName = null;
 
+        log.info("songFileName: {}", songFileName);
         if(request.coverFile() != null && !request.coverFile().isEmpty()) {
             coverFileName = this.fileStorageService.save(request.coverFile());
         }
