@@ -35,7 +35,6 @@ public class AuthService  implements IAuthService {
                         request.email(), request.password()
                 )
         );
-
         var user = this.userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + request.email()));
 
