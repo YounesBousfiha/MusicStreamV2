@@ -3,3 +3,9 @@ spring:
     name: musicstream
   profiles:
     active: prod
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 60MB
