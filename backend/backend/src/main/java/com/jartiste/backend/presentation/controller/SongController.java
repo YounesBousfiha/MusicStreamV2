@@ -25,7 +25,7 @@ public class SongController {
     private final IFileStorageService fileStorageService;
 
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize( "hasRole('ADMIN')")
     public ResponseEntity<SongResponse> createSong(SongRequest request) {
         return ResponseEntity.ok(songService.save(request));
