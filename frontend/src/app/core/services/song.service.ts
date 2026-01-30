@@ -15,10 +15,16 @@ export class SongService {
       return this.http.get<Song[]>(`${this.apiUrl}`);
     }
 
-    save() {}
+    create(songData: FormData): Observable<any> {
+      return this.http.post(`${this.apiUrl}`, songData);
+    }
 
-    deleteSong() {}
+    delete(id: number) {
+      return this.http.delete(`${this.apiUrl}/${id}`);
+    }
 
-    updateSong() {}
+    update(id: number, songData: FormData) {
+      return this.http.put(`${this.apiUrl}/${id}`, songData);
+    }
 
 }
