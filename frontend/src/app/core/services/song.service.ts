@@ -12,11 +12,11 @@ export class SongService {
     private apiUrl = `${environment.apiUrl}/songs`;
 
     getAll(): Observable<Song[]> {
-      return this.http.get<Song[]>(`${this.apiUrl}`);
+      return this.http.get<Song[]>(`${this.apiUrl}/all`);
     }
 
     create(songData: FormData): Observable<any> {
-      return this.http.post(`${this.apiUrl}`, songData);
+      return this.http.post(`${this.apiUrl}/create`, songData);
     }
 
     delete(id: number) {
