@@ -1,0 +1,68 @@
+<div class="flex flex-col gap-8 pb-20">
+
+  <div class="w-full h-64 rounded-2xl bg-gradient-to-r from-zinc-900 to-zinc-800 border border-white/5 relative overflow-hidden flex items-end p-6 group">
+    <div class="absolute inset-0 bg-noise opacity-20"></div>
+    <div class="absolute right-0 top-0 w-64 h-64 bg-accent/10 blur-[100px] rounded-full"></div>
+    <div class="relative z-10 flex gap-6 items-end">
+      <div class="w-40 h-40 shadow-2xl shadow-black/50 rounded-lg overflow-hidden">
+        <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/rap-cd-album-cover-template-design-c24c2972eb0499b9eb47401d4a946b2b_screen.jpg" class="w-full h-full object-cover">
+      </div>
+      <div class="mb-2">
+        <span class="text-xs font-bold tracking-widest text-accent uppercase mb-2 block">Featured Album</span>
+        <h1 class="text-5xl font-black text-white mb-2 tracking-tight">Midnight City</h1>
+        <p class="text-zinc-400 font-medium">Experience the vibe of the underground scene.</p>
+        <div class="flex gap-3 mt-4">
+          <button class="px-6 py-2.5 bg-accent text-black font-bold rounded-full hover:scale-105 transition flex items-center gap-2">
+            <i class="ri-play-fill text-xl"></i> Play Now
+          </button>
+          <button class="px-6 py-2.5 bg-white/5 text-white font-bold rounded-full border border-white/10 hover:bg-white/10 transition">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-4">
+    <div class="flex items-center justify-between px-2">
+      <div class="flex items-center gap-3">
+        <h2 class="text-2xl font-bold text-white tracking-tight">Fresh Drops <span class="text-accent">.</span></h2>
+
+        @if (songStore.isLoading()) {
+          <i class="ri-loader-4-line animate-spin text-accent text-xl"></i>
+        }
+      </div>
+      <button class="text-xs font-bold text-zinc-500 hover:text-white uppercase tracking-wider transition">See All</button>
+    </div>
+
+    @if (songStore.error()) {
+      <div class="p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-center">
+        {{ songStore.error() }}
+      </div>
+    }
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+
+      @for (song of songStore.songs(); track song.id) {
+        <app-song-card [data]="song"></app-song-card>
+      } @empty {
+        @if (!songStore.isLoading() && !songStore.error()) {
+          <p class="text-zinc-500 col-span-full py-8 text-center">No songs available yet.</p>
+        }
+      }
+
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-4">
+    <div class="flex items-center justify-between px-2">
+      <h2 class="text-2xl font-bold text-white tracking-tight">Made For You</h2>
+      <button class="text-xs font-bold text-zinc-500 hover:text-white uppercase tracking-wider transition">See All</button>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      @for (song of songStore.songs().slice(0, 4); track song.id) {
+        <app-song-card [data]="song"></app-song-card>
+      }
+    </div>
+  </div>
+
+</div>
