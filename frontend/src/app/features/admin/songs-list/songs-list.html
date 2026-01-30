@@ -59,7 +59,7 @@
                 <td class="px-6 py-4">
                   <div class="flex items-center gap-4">
                     <div class="relative w-12 h-12 rounded-lg overflow-hidden bg-zinc-800 shadow-lg group-hover:scale-105 transition shrink-0">
-                      <img [src]="song.coverUrl" alt="Cover" class="w-full h-full object-cover">
+                      <img [src]="song.coverUrl | imgUrl" alt="Cover" class="w-full h-full object-cover">
                       <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                         <i class="ri-play-mini-fill text-white"></i>
                       </div>
