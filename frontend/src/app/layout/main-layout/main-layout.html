@@ -1,16 +1,16 @@
-<div class="h-screen w-full bg-[#0a0a0c] text-white font-sans overflow-hidden flex flex-col relative">
+<div class="h-screen w-full bg-base text-white font-sans overflow-hidden flex flex-col relative selection:bg-accent selection:text-black">
 
-  <div class="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-violet-900/20 to-transparent pointer-events-none z-0"></div>
+  <div class="flex-1 flex overflow-hidden p-4 gap-4">
 
-  <div class="flex-1 flex overflow-hidden z-10 p-3 gap-3">
+    <app-sidebar class="hidden md:flex w-64 shadow-2xl shadow-black/50"></app-sidebar>
 
-    <app-sidebar class="hidden md:flex flex-col w-64 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl"></app-sidebar>
+    <div class="flex-1 flex flex-col bg-surface/30 rounded-2xl border border-white/5 relative overflow-hidden shadow-inner">
 
-    <div class="flex-1 flex flex-col rounded-2xl bg-white/5 backdrop-blur-md border border-white/5 relative overflow-hidden">
+      <div class="absolute inset-0 bg-noise pointer-events-none opacity-50 z-0"></div>
 
-      <app-navbar class="h-16 z-20"></app-navbar>
+      <app-navbar class="block top-0 z-50 relative"></app-navbar>
 
-      <main class="flex-1 overflow-y-auto p-6 scroll-smooth custom-scrollbar">
+      <main class="flex-1 overflow-y-auto p-8 scroll-smooth z-10 relative">
         <router-outlet></router-outlet>
       </main>
 
@@ -18,8 +18,6 @@
 
   </div>
 
-  <div class="px-3 pb-3 z-20">
-    <app-player class="block rounded-2xl bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl"></app-player>
-  </div>
+  <app-player class="block z-50"></app-player>
 
 </div>
