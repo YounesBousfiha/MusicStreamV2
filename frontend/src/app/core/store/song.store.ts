@@ -33,6 +33,7 @@ export const SongStore = signalStore(
         tap(() => patchState(store, { isLoading: true})),
         switchMap(() =>
           songService.getAll().pipe(
+            tap((data) => console.log('Data Received', data)),
             tapResponse({
               next: (songs) => patchState(store, { songs, isLoading: false}),
               error: (err: any) => patchState( store, { isLoading: false, error: 'Failed to load songs'})
