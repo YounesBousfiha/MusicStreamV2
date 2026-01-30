@@ -1,0 +1,67 @@
+<div class="min-h-screen flex items-center justify-center bg-black relative overflow-hidden">
+
+  <div class="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-accent/20 blur-[120px] rounded-full"></div>
+  <div class="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-purple-500/10 blur-[120px] rounded-full"></div>
+
+  <div class="relative z-10 w-full max-w-md p-8 bg-zinc-900/50 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl">
+
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-black text-white tracking-tighter mb-2">Welcome Back</h1>
+      <p class="text-zinc-400 text-sm">Enter your credentials to access your vibe.</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
+
+      <div class="space-y-1">
+        <label class="text-xs font-bold text-zinc-500 uppercase tracking-wider">Email</label>
+        <input
+          type="email"
+          formControlName="email"
+          class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition placeholder:text-zinc-700"
+          placeholder="younes@example.com"
+          [class.border-red-500]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+        >
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+          <span class="text-xs text-red-400">Please enter a valid email.</span>
+        }
+      </div>
+
+      <div class="space-y-1">
+        <label class="text-xs font-bold text-zinc-500 uppercase tracking-wider">Password</label>
+        <input
+          type="password"
+          formControlName="password"
+          class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition placeholder:text-zinc-700"
+          placeholder="••••••••"
+          [class.border-red-500]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+        >
+        @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+          <span class="text-xs text-red-400">Password is required (min 6 chars).</span>
+        }
+      </div>
+
+      <div class="flex justify-end">
+        <a href="#" class="text-xs text-zinc-400 hover:text-white transition">Forgot password?</a>
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="store.isLoading()"
+        class="w-full bg-accent text-black font-bold py-3.5 rounded-lg hover:scale-[1.02] active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+      >
+        @if (store.isLoading()) {
+          <i class="ri-loader-4-line animate-spin text-xl"></i> Processing...
+        } @else {
+          Login to Account
+        }
+      </button>
+
+    </form>
+
+    <p class="text-center text-zinc-500 text-sm mt-6">
+      Don't have an account?
+      <a routerLink="/auth/register" class="text-white font-bold hover:underline cursor-pointer">Sign up</a>
+    </p>
+
+  </div>
+</div>
