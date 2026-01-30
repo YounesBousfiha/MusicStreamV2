@@ -39,6 +39,7 @@ public class SecurityConfig {
                         authz.requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/songs/create").hasRole("ADMIN")
                                 .requestMatchers("/songs/all").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/songs/file/**").permitAll()
                         .anyRequest().authenticated()
                         )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
