@@ -1,0 +1,103 @@
+<div class="min-h-screen flex items-center justify-center bg-black relative overflow-hidden py-10">
+
+  <div class="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-accent/20 blur-[120px] rounded-full"></div>
+  <div class="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-purple-500/10 blur-[120px] rounded-full"></div>
+
+  <div class="relative z-10 w-full max-w-md p-8 bg-zinc-900/50 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl">
+
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-black text-white tracking-tighter mb-2">Create Account</h1>
+      <p class="text-zinc-400 text-sm">Join the community and start streaming.</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-1">
+          <label class="text-xs font-bold text-zinc-500 uppercase tracking-wider">First Name</label>
+          <input
+            formControlName="firstName"
+            type="text"
+            class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition placeholder:text-zinc-700"
+            placeholder="John"
+            [class.border-red-500]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
+          >
+        </div>
+        <div class="space-y-1">
+          <label class="text-xs font-bold text-zinc-500 uppercase tracking-wider">Last Name</label>
+          <input
+            formControlName="lastName"
+            type="text"
+            class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition placeholder:text-zinc-700"
+            placeholder="Doe"
+            [class.border-red-500]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
+          >
+        </div>
+      </div>
+      @if ((registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched) || (registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched)) {
+        <span class="text-xs text-red-400">Full name is required.</span>
+      }
+
+      <div class="space-y-1">
+        <label class="text-xs font-bold text-zinc-500 uppercase tracking-wider">Email</label>
+        <input
+          formControlName="email"
+          type="email"
+          class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition placeholder:text-zinc-700"
+          placeholder="younes@example.com"
+          [class.border-red-500]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+        >
+        @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+          <span class="text-xs text-red-400">Please enter a valid email.</span>
+        }
+      </div>
+
+      <div class="space-y-1">
+        <label class="text-xs font-bold text-zinc-500 uppercase tracking-wider">Password</label>
+        <input
+          formControlName="password"
+          type="password"
+          class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition placeholder:text-zinc-700"
+          placeholder="•••••••• (Min 6 chars)"
+          [class.border-red-500]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+        >
+        @if (registerForm.get('password')?.errors?.['minlength'] && registerForm.get('password')?.touched) {
+          <span class="text-xs text-red-400">Password must be at least 6 characters.</span>
+        }
+      </div>
+
+      <div class="space-y-1">
+        <label class="text-xs font-bold text-zinc-500 uppercase tracking-wider">Confirm Password</label>
+        <input
+          formControlName="confirmPassword"
+          type="password"
+          class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-accent focus:ring-1 focus:ring-accent outline-none transition placeholder:text-zinc-700"
+          placeholder="••••••••"
+          [class.border-red-500]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched"
+        >
+        @if (registerForm.get('confirmPassword')?.hasError('mismatch') && registerForm.get('confirmPassword')?.touched) {
+          <span class="text-xs text-red-400 font-medium">Passwords do not match.</span>
+        }
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="store.isLoading()"
+        class="w-full mt-2 bg-white text-black font-bold py-3.5 rounded-lg hover:bg-accent hover:scale-[1.02] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+      >
+        @if (store.isLoading()) {
+          <i class="ri-loader-4-line animate-spin text-xl"></i> Creating Account...
+        } @else {
+          Sign Up Now
+        }
+      </button>
+
+    </form>
+
+    <p class="text-center text-zinc-500 text-sm mt-6">
+      Already have an account?
+      <a routerLink="/auth/login" class="text-accent font-bold hover:underline cursor-pointer">Log in</a>
+    </p>
+
+  </div>
+</div>
