@@ -55,6 +55,14 @@
             Settings
           </a>
 
+          @if (isAdmin())  {
+            <a routerLink="/admin/songs" (click)="isDropdownOpen.set(false)" class="flex items-center gap-3 px-4 py-3 text-sm text-zinc-300 hover:bg-white/5 hover:text-white transition cursor-pointer">
+              <i class="ri-settings-3-line text-lg"></i>
+              Admin Area
+            </a>
+          }
+
+
           <div class="h-px bg-white/5 my-1"></div>
 
           <button (click)="logout()" class="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 transition cursor-pointer text-left">
