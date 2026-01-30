@@ -4,12 +4,14 @@ import { environment} from '../../../../environments/environment.development';
 import {HttpClient} from '@angular/common/http';
 import {RouterLink} from '@angular/router';
 import {DatePipe} from '@angular/common';
+import {ImgUrlPipe} from '../../../core/pipes/img-url-pipe';
 
 @Component({
   selector: 'app-songs-list',
   imports: [
     RouterLink,
-    DatePipe
+    DatePipe,
+    ImgUrlPipe
   ],
   templateUrl: './songs-list.html',
   styleUrl: './songs-list.css',
