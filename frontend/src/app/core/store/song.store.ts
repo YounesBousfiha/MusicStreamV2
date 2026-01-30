@@ -8,6 +8,7 @@ import {Song} from '../models/song.model';
 import {ToastService} from '../services/toast.service';
 import {routes} from '../../app.routes';
 import {Router} from '@angular/router';
+import {removeEntity} from '@ngrx/signals/entities';
 
 
 type SongState = {
@@ -71,7 +72,13 @@ export const SongStore = signalStore(
           songService.delete(id).pipe(
             tapResponse({
               next: () => {
-                patchState(store, { isLoading: false, error: null});
+                patchState(store,
+                  {
+                    songs: store.songs().filter(s => s.id !== id),
+                    isLoading: false,
+                    error: null
+                  }
+                );
 
                 toast.show('the Song has Been Deleted', 'success');
 
