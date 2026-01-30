@@ -1,0 +1,106 @@
+<div class="max-w-5xl mx-auto">
+
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-white tracking-tight">Upload New Track</h1>
+    <p class="text-zinc-400 mt-1">Share new music with the world.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+    <div class="lg:col-span-2 bg-zinc-900/50 border border-white/5 rounded-2xl p-6 backdrop-blur-sm">
+
+      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-zinc-500 uppercase">Track Title</label>
+            <input formControlName="title" type="text" placeholder="e.g. Midnight City" class="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-accent outline-none transition">
+          </div>
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-zinc-500 uppercase">Artist Name</label>
+            <input formControlName="artist" type="text" placeholder="e.g. M83" class="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-accent outline-none transition">
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-zinc-500 uppercase">Cover Art (JPG/PNG)</label>
+          <div class="border-2 border-dashed border-white/10 rounded-xl p-8 text-center hover:bg-white/5 transition cursor-pointer relative">
+            <input type="file" (change)="onCoverSelected($event)" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+            <div class="flex flex-col items-center gap-2 pointer-events-none">
+              <i class="ri-image-add-line text-3xl text-zinc-500"></i>
+              <p class="text-sm text-zinc-400">Drag & drop or click to upload cover</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-zinc-500 uppercase">Audio File (MP3)</label>
+          <div class="bg-black/40 border border-white/10 rounded-xl p-4 flex items-center gap-4">
+            <button type="button" class="w-12 h-12 rounded-lg bg-accent text-black flex items-center justify-center font-bold">
+              <i class="ri-music-2-line text-xl"></i>
+            </button>
+            <div class="flex-1 overflow-hidden">
+              <input type="file" (change)="onSongSelected($event)" accept="audio/*" class="text-sm text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20">
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4 mt-4">
+          <button type="button" routerLink="/admin/songs" class="px-6 py-3 rounded-lg text-zinc-400 font-bold hover:text-white transition">Cancel</button>
+
+          <button
+            type="submit"
+            [disabled]="songStore.isLoading()"
+            class="px-8 py-3 rounded-lg bg-accent text-black font-bold hover:bg-accent/90 transition flex items-center gap-2 disabled:opacity-50"
+          >
+            @if (songStore.isLoading()) {
+              <i class="ri-loader-4-line animate-spin text-xl"></i> Uploading...
+            } @else {
+              <i class="ri-upload-cloud-2-line text-xl"></i> Publish Song
+            }
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="lg:col-span-1">
+      <h3 class="text-sm font-bold text-zinc-500 uppercase mb-4">Live Preview</h3>
+
+      <div class="bg-zinc-900 border border-white/5 rounded-xl p-4 shadow-2xl">
+        <div class="aspect-square rounded-lg bg-zinc-800 mb-4 overflow-hidden relative group">
+
+          @if (imagePreview()) {
+            <img [src]="imagePreview()" class="w-full h-full object-cover animate-in fade-in">
+          } @else {
+            <div class="w-full h-full flex items-center justify-center text-zinc-600 bg-black/20">
+              <i class="ri-music-2-fill text-4xl"></i>
+            </div>
+          }
+
+          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+            <button class="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-black shadow-lg scale-90 group-hover:scale-100 transition">
+              <i class="ri-play-fill text-2xl"></i>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-white truncate text-lg">
+            {{ uploadForm.get('title')?.value || 'Song Title' }}
+          </h4>
+          <p class="text-sm text-zinc-400 truncate">
+            {{ uploadForm.get('artist')?.value || 'Artist Name' }}
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-xs">
+        <i class="ri-information-line text-sm mr-1"></i>
+        Large files might take a few moments to process. Supported formats: MP3 only.
+      </div>
+
+    </div>
+
+  </div>
+</div>
