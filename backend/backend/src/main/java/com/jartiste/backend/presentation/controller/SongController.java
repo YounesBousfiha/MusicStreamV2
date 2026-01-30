@@ -37,6 +37,12 @@ public class SongController {
         return ResponseEntity.ok(songService.getAllSongs());
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSong(@PathVariable long id) {
+        this.songService.deleteSong(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
     @GetMapping("/file/{fileName:.+}")
     public ResponseEntity<Resource> serveFile(@PathVariable String fileName) {
