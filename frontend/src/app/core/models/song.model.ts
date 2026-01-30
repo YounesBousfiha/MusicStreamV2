@@ -5,4 +5,5 @@ export interface Song {
   audioUrl: string;
   coverUrl?: string | null;
   duration: number;
+  createdAt: string;
 }
