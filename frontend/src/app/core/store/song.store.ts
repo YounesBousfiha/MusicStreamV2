@@ -1,6 +1,6 @@
 import { SongService} from '../services/song.service';
-import {patchState, signalStore, withHooks, withMethods, withState} from '@ngrx/signals';
-import {inject} from '@angular/core';
+import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
+import {computed, inject} from '@angular/core';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 import {pipe, switchMap, tap} from 'rxjs';
 import {tapResponse} from '@ngrx/operators';
@@ -15,18 +15,30 @@ type SongState = {
   songs: Song[];
   isLoading: boolean;
   error: string | null;
+  filter: string;
 }
 
 const initialState: SongState = {
   songs: [],
   isLoading: false,
   error: null,
+  filter: '',
 }
 
 export const SongStore = signalStore(
   { providedIn: 'root'},
   withState(initialState),
+  withComputed((store) => ({
+    filteredSongs: computed(() => {
+      const filter = store.filter().toLowerCase();
+      if (!filter) return store.songs();
 
+      return store.songs().filter(song =>
+        song.title.toLowerCase().includes(filter) ||
+        song.artist.toLowerCase().includes(filter)
+      );
+    })
+  })),
   withMethods((store, router = inject(Router) ,songService = inject(SongService), toast = inject(ToastService)) => ({
     loadAll: rxMethod<void>(
       pipe(
@@ -93,7 +105,10 @@ export const SongStore = signalStore(
           )
         )
       )
-    )
+    ),
+    updateFilter(query: string) {
+      patchState(store, { filter: query});
+    }
     })),
 
     withHooks({

@@ -53,7 +53,7 @@
 
           <tbody class="divide-y divide-white/5">
 
-            @for (song of songStore.songs(); track song.id) {
+            @for (song of songStore.filteredSongs(); track song.id) {
               <tr class="group hover:bg-white/5 transition duration-200">
 
                 <td class="px-6 py-4">
