@@ -5,7 +5,7 @@
     <img [src]="data.coverUrl | imgUrl" class="w-full h-full object-cover">
 
     <button
-      (click)="onPlay($event)"
+      (click)="onPlay()"
       class="absolute bottom-2 right-2 w-12 h-12 rounded-full bg-accent text-black flex items-center justify-center shadow-xl translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition duration-300 hover:scale-105"
       [class.opacity-100]="playerStore.currentSong()?.id === data.id && playerStore.isPlaying()"
       [class.translate-y-0]="playerStore.currentSong()?.id === data.id && playerStore.isPlaying()"

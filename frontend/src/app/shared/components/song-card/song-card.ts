@@ -2,7 +2,6 @@ import {Component, inject, Input} from '@angular/core';
 import {Song} from '../../../core/models/song.model';
 import {ImgUrlPipe} from '../../../core/pipes/img-url-pipe';
 import {PlayerStore} from '../../../core/store/player.store';
-import {Events} from '@ngrx/signals/events';
 
 @Component({
   selector: 'app-song-card',
@@ -17,7 +16,7 @@ export class SongCard {
 
   readonly playerStore = inject(PlayerStore);
 
-  onPlay(event: Event) {
+  onPlay() {
     if(this.playerStore.isPlaying()) {
       this.playerStore.pause();
     } else {
