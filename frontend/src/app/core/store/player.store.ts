@@ -1,5 +1,6 @@
 import { Song } from "../models/song.model";
 import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
+import {environment} from '../../../environments/environment.development';
 
 type PlayerState = {
   isPlaying: boolean;
@@ -25,6 +26,23 @@ export const PlayerStore = signalStore(
 
   withMethods((store) => ({
 
+    seek(time: number) {
+      audio.currentTime = time;
+      patchState(store, { currentTime: time});
+    },
+    initAudioEvents() {
+      audio.addEventListener('timeupdate', () => {
+        patchState(store, { currentTime: audio.currentTime})
+      });
+
+      audio.addEventListener('loadedmetadata', () => {
+        patchState(store, { duration: audio.duration});
+      });
+
+      audio.addEventListener('ended', () => {
+        patchState(store, { isPlaying: false});
+      });
+    },
     play(song: Song) {
       if(store.currentSong()?.id === song.id) {
         audio.play();
@@ -32,9 +50,16 @@ export const PlayerStore = signalStore(
         return;
       }
 
-      audio.src = song.songUrl;
+      let streamUrl = song.songUrl;
+
+      if(!streamUrl.startsWith('http')) {
+        streamUrl = `${environment.apiUrl}/songs/file/${streamUrl}`
+      }
+
+      audio.src = streamUrl;
       audio.load();
-      audio.play();
+      audio.play()
+        .catch(err  => console.error('Audio Player Error:', err));
 
       patchState(store, {
         currentSong: song,
