@@ -59,7 +59,7 @@
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-      @for (song of songStore.songs().slice(0, 4); track song.id) {
+      @for (song of songStore.filteredSongs().slice(0, 4); track song.id) {
         <app-song-card [data]="song"></app-song-card>
       }
     </div>
