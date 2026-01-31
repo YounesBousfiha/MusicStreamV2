@@ -3,6 +3,7 @@ import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
 import {environment} from '../../../environments/environment.development';
 
 type PlayerState = {
+  playlist: Song[];
   isPlaying: boolean;
   currentSong: Song | null;
   volume: number;
@@ -11,6 +12,7 @@ type PlayerState = {
 }
 
 const initialState: PlayerState = {
+  playlist: [],
   isPlaying: false,
   currentSong: null,
   volume: 0.5,
@@ -26,6 +28,35 @@ export const PlayerStore = signalStore(
 
   withMethods((store) => ({
 
+    setQueue(songs: Song[]) {
+      patchState(store, { playlist: songs});
+    },
+    next() {
+      const list = store.playlist();
+      const current = store.currentSong();
+      if(!current || list.length === 0) return;
+
+      const currentIndex = list.findIndex(s => s.id === current.id);
+
+      if(currentIndex < list.length - 1) {
+        this.play(list[currentIndex + 1]);
+      } else {
+        this.play(list[0]);
+      }
+    },
+    prev() {
+      const list = store.playlist();
+      const current = store.currentSong();
+      if(!current || list.length === 0 ) return;
+
+      const currentIndex = list.findIndex(s => s.id === current.id);
+
+      if(currentIndex > 0) {
+        this.play(list[currentIndex -1])
+      } else {
+        this.play(list[0]);
+      }
+    },
     seek(time: number) {
       audio.currentTime = time;
       patchState(store, { currentTime: time});
@@ -40,7 +71,7 @@ export const PlayerStore = signalStore(
       });
 
       audio.addEventListener('ended', () => {
-        patchState(store, { isPlaying: false});
+        this.next();
       });
     },
     play(song: Song) {

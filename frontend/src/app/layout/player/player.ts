@@ -14,6 +14,16 @@ export class Player {
 
   readonly playerStore = inject(PlayerStore);
 
+  formatTime(time: number): string {
+    if (!time || isNaN(time)) return '0:00';
+
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+
+    // مثلاً 5 ثواني كتولي "05"
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  }
+
   progressPercent = computed(() => {
     const duration = this.playerStore.duration() || 1; // تفادي القسمة على 0
     return (this.playerStore.currentTime() / duration) * 100;
