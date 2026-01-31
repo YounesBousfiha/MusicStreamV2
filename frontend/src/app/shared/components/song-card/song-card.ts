@@ -18,8 +18,10 @@ export class SongCard {
   readonly playerStore = inject(PlayerStore);
 
   onPlay(event: Event) {
-    event.stopPropagation();
-
-    this.playerStore.play(this.data);
+    if(this.playerStore.isPlaying()) {
+      this.playerStore.pause();
+    } else {
+      this.playerStore.play(this.data);
+    }
   }
 }
