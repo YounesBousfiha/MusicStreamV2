@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz ->
                         authz.requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/songs/{id}").hasRole("ADMIN")
                                 .requestMatchers("/songs/create").hasRole("ADMIN")
                                 .requestMatchers("/songs/all").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/songs/file/**").permitAll()
