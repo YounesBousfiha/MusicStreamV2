@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -43,6 +44,18 @@ public class SongController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<SongResponse> updateSong(
+        @PathVariable Long id,
+        @RequestParam("title") String title,
+        @RequestParam("artist") String artist,
+        @RequestParam(value = "coverFile", required = false) MultipartFile coverFile
+    ) throws IOException {
+
+        SongResponse updatedSong = songService.updateSong(id, title, artist, coverFile);
+
+        return ResponseEntity.ok(updatedSong);
+     }
 
     @GetMapping("/file/{fileName:.+}")
     public ResponseEntity<Resource> serveFile(@PathVariable String fileName) {

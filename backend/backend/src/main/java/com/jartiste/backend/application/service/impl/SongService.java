@@ -8,6 +8,7 @@ import com.jartiste.backend.domain.repository.SongRepository;
 import com.jartiste.backend.infrastructure.storage.IFileStorageService;
 import com.jartiste.backend.presentation.dto.request.SongRequest;
 import com.jartiste.backend.presentation.dto.response.SongResponse;
+import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -60,5 +61,23 @@ public class SongService  implements ISongService {
         } else {
             throw new SongNotFoundException("Song not found");
         }
+    }
+
+    @Override
+    public SongResponse updateSong(Long id, String title, String artist, MultipartFile coverFile) {
+        Song song = songRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Song not found"));
+
+        song.setTitle(title);
+        song.setArtist(artist);
+
+        if (coverFile != null && !coverFile.isEmpty()) {
+            String newCoverPath = fileStorageService.save(coverFile);
+            song.setCoverUrl(newCoverPath);
+        }
+
+
+        Song savedSong = songRepository.save(song);
+        return songMapper.toResponse(savedSong);
     }
 }
