@@ -9,6 +9,7 @@ import {ToastService} from '../services/toast.service';
 import {routes} from '../../app.routes';
 import {Router} from '@angular/router';
 import {removeEntity} from '@ngrx/signals/entities';
+import {Form} from '@angular/forms';
 
 
 type SongState = {
@@ -100,6 +101,28 @@ export const SongStore = signalStore(
               error: (err: any) => {
                 const errorMsg = err.error?.detail || 'Something went wrong !';
                 toast.show(errorMsg, 'error');
+              }
+            })
+          )
+        )
+      )
+    ),
+    updateSong: rxMethod<{ id: number; data: FormData }>(
+      pipe(
+        tap(() => patchState(store, { isLoading: true })),
+        switchMap(({ id, data }) =>
+          songService.update(id, data).pipe(
+            tapResponse({
+              next: (updatedSong: any) => {
+                patchState(store, {
+                  isLoading: false,
+                  songs: store.songs().map(s => s.id === id ? updatedSong : s)
+                });
+                toast.show('Song updated successfully!', 'success');
+              },
+              error: (err: any) => {
+                patchState(store, { isLoading: false, error: err.error?.detail });
+                toast.show('Failed to update song', 'error');
               }
             })
           )
